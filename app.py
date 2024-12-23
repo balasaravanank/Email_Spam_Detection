@@ -46,31 +46,48 @@ st.markdown("""
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
+    .text-area {
+        font-size: 1.2em;  /* Increase font size for text area */
+    }
     .prediction {
-        font-size: 1.5em;
+        font-size: 2em;  /* Increase font size for prediction text */
         font-weight: bold;
         text-align: center;
         margin-top: 20px;
     }
+    .spam {
+        color: red;  /* Color for spam prediction */
+    }
+    .normal {
+        color: green;  /* Color for normal mail prediction */
+    }
     .button {
-        background-color: #FF9900;
+        background: linear-gradient(90deg, #FF9900, #FFCC00); /* Gradient color */
         color: white;
         border: none;
         padding: 10px 20px;
         border-radius: 5px;
         cursor: pointer;
         font-size: 1em;
-        display: inline-block;
-        text-align: center;
-        margin-top: 10px;
+        display: block; /* Make it a block element */
+        margin: 20px auto; /* Center the button */
+        text-align: center; /* Center text inside the button */
     }
     .button:hover {
-        background-color: #e68a00;
+        background: linear-gradient(90deg, #e68a00, #ffb300); /* Darker gradient on hover */
     }
     .footer {
         text-align: center;
         margin-top: 40px;
         color: gray;
+        font-size: 0.9em;  /* Adjust font size for footer */
+    }
+    /* Hide the default Streamlit header */
+    .stApp {
+        padding-top: 0rem;
+    }
+    .css-1d391kg {
+        display: none;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -81,9 +98,12 @@ st.markdown('<div class="header"><h1 class="title">Gmail Spam Detection</h1></di
 # Input area
 with st.container():
     st.markdown('<div class="input-area">', unsafe_allow_html=True)
-    user_input = st.text_area("Enter your message:", height=200)
+    user_input = st.text_area("Enter your message:", height=200, key="input_text", help="Type your message here...", 
+                               placeholder="Type your message here...", 
+                               label_visibility="visible", 
+                               max_chars=500)  # You can adjust max_chars as needed
     
-    if st.button("Predict"):
+    if st.button("Predict", key="predict_button"):
         if not user_input:
             st.error("Please enter a message to predict.")
         else:
@@ -96,10 +116,9 @@ with st.container():
                 
                 # Display result
                 if prediction[0] == 1:
-                    st.markdown('<p class="prediction">Prediction: Spam</p>', unsafe_allow_html=True)
+                    st.markdown('<p class="prediction spam">Prediction: Spam</p>', unsafe_allow_html=True)
                 else:
-                    st.markdown('<p class="prediction">Prediction: Normal Mail</p>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+                    st.markdown('<p class="prediction normal">Prediction: Normal Mail</p>', unsafe_allow
 
 # Footer
 st.markdown('<div class="footer"><p>&copy; 2024 Sreesanth R. All rights reserved.</p></div>', unsafe_allow_html=True)
