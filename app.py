@@ -56,6 +56,9 @@ st.markdown("""
         border-radius: 5px;
         cursor: pointer;
         font-size: 1em;
+        display: inline-block;
+        text-align: center;
+        margin-top: 10px;
     }
     .button:hover {
         background-color: #e68a00;
@@ -75,7 +78,9 @@ st.markdown('<div class="header"><h1 class="title">Gmail Spam Detection</h1></di
 with st.container():
     st.markdown('<div class="input-area">', unsafe_allow_html=True)
     user_input = st.text_area("Enter your message:", height=200)
-    if st.button("Predict", key="predict_button", help="Click to predict if the email is spam or normal mail", css_class="button"):
+    
+    # Create a button using markdown for custom styling
+    if st.markdown('<button class="button" onclick="document.getElementById(\'predict\').click();">Predict</button>', unsafe_allow_html=True):
         with st.spinner("Processing..."):
             time.sleep(1)  # Simulate processing time
             cleaned_input = clean_text(user_input)  # Clean the input
