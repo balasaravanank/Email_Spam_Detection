@@ -3,7 +3,7 @@ import joblib
 import re
 import numpy as np
 
-# Load model and vectorizer
+# Load model and vectorizer with robust error handling
 try:
     model = joblib.load('model.pkl')
     vectorizer = joblib.load('vectorizer.pkl')
@@ -14,15 +14,18 @@ except Exception as e:
     st.error(f"Error loading model or vectorizer: {e}")
     st.stop()
 
-# Clean text function
+# Clean text function (Robust cleaning)
 def clean_text(text):
     text = text.lower()
-    text = re.sub(r'https?://\S+|www\.\S+', '', text)
-    text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
-    text = re.sub(r'\s+', ' ', text).strip()
+    text = re.sub(r'https?://\S+|www\.\S+', '', text)  # Remove URLs
+    text = re.sub(r'[^a-zA-Z0-9\s]', '', text)  # Remove non-alphanumeric
+    text = re.sub(r'\s+', ' ', text).strip()  # Remove extra spaces
     return text
 
-# Custom CSS
+# Streamlit app
+st.set_page_config(page_title="Gmail Spam Detection", page_icon="✉️") # Set title and icon of the page
+
+# Custom CSS (Comprehensive styling)
 st.markdown("""
 <style>
 body { background-color: #111b21; font-family: 'Arial', sans-serif; color: #ececec; }
@@ -37,7 +40,7 @@ body { background-color: #111b21; font-family: 'Arial', sans-serif; color: #ecec
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .input-area textarea {
-    user-select: all !important;
+    user-select: all !important; /* Force copy/paste */
     -webkit-user-select: all !important;
     -moz-user-select: all !important;
     -ms-user-select: all !important;
