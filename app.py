@@ -28,8 +28,15 @@ st.markdown("""
 body { background-color: #f7f7f7; font-family: 'Arial', sans-serif; }
 .header { background-color: #232F3E; padding: 10px; color: white; text-align: center; }
 .title { font-size: 2.5em; margin: 0; }
-.input-area { margin: 20px auto; max-width: 600px; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
-.input-area textarea { user-select: auto; -webkit-user-select: auto; -moz-user-select: auto; -ms-user-select: auto; }
+.input-area {
+    margin: 10px auto;
+    max-width: 600px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.input-area textarea { user-select: auto; -webkit-user-select: auto; -moz-user-select: auto; -ms-user-select: auto; margin-top: 0px;}
 .prediction { font-size: 1.5em; font-weight: bold; text-align: center; margin-top: 20px; word-break: break-word; }
 .stButton>button {
     display: block;
@@ -43,21 +50,27 @@ body { background-color: #f7f7f7; font-family: 'Arial', sans-serif; }
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s;
 }
 .stButton>button:hover {
-    background-image: linear-gradient(to right, #FF9800, #FF8F00);
+    background-image: linear-gradient(to right, #FFA500, #FF8C00);
+    transform: scale(1.05);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.stButton>button:active {
+    transform: scale(0.95);
+    box-shadow: none;
 }
 .footer { text-align: center; margin-top: 40px; color: gray; font-size: 0.9em; }
 </style>
 """, unsafe_allow_html=True)
 
 # Header
-st.markdown('<div class="header"><h1 class="title">Gmail Spam Detection</h1></div>', unsafe_allow_html=True)
+st.markdown('<div class="header"><h1 class="title">Gmail Spam Detection Using Logistic Regression</h1></div>', unsafe_allow_html=True)
 
 # Input area
 with st.container():
-    st.markdown('<div class="input-area">', unsafe_allow_html=True)  # Opening div
+    st.markdown('<div class="input-area">', unsafe_allow_html=True)
     user_input = st.text_area("Enter your message:", height=200, key="input_text", help="Type your message here...", placeholder="Type your message here...", max_chars=500)
 
     if st.button("Predict", key="predict_button"):
@@ -74,13 +87,13 @@ with st.container():
                     try:
                         prediction = model.predict(input_vectorized)
                         if prediction[0] == 1:
-                            st.markdown('<p class="prediction spam">Prediction: Spam</p>', unsafe_allow_html=True) #Corrected line
+                            st.markdown('<p class="prediction spam">Prediction: Spam</p>', unsafe_allow_html=True)
                         else:
-                            st.markdown('<p class="prediction normal">Prediction: Normal Mail</p>', unsafe_allow_html=True) #Corrected line
+                            st.markdown('<p class="prediction normal">Prediction: Normal Mail</p>', unsafe_allow_html=True)
                     except Exception as e:
                         st.error(f"An error occurred during prediction: {e}")
 
-    st.markdown('</div>', unsafe_allow_html=True)  # Closing div
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # Footer
 st.markdown('<div class="footer"><p>Developed by <b>Your Name</b> | © 2024 Gmail Spam Detection System</p></div>', unsafe_allow_html=True)
