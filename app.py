@@ -21,20 +21,18 @@ def clean_text(text):
 st.markdown("""
     <style>
     body {
-        background-color: #f0f2f5;
+        background-color: #f7f7f7;
         font-family: 'Arial', sans-serif;
     }
-    .title {
+    .header {
+        background-color: #232F3E;
+        padding: 10px;
+        color: white;
         text-align: center;
-        color: #ff6b39;
-        font-size: 2.5em;
-        margin-bottom: 20px;
     }
-    .prediction {
-        font-size: 1.5em;
-        font-weight: bold;
-        text-align: center;
-        margin-top: 20px;
+    .title {
+        font-size: 2.5em;
+        margin: 0;
     }
     .input-area {
         margin: 20px auto;
@@ -44,17 +42,40 @@ st.markdown("""
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
+    .prediction {
+        font-size: 1.5em;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 20px;
+    }
+    .button {
+        background-color: #FF9900;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+    }
+    .button:hover {
+        background-color: #e68a00;
+    }
+    .footer {
+        text-align: center;
+        margin-top: 40px;
+        color: gray;
+    }
     </style>
 """, unsafe_allow_html=True)
 
-# Streamlit application
-st.markdown('<h1 class="title">Gmail Spam Detection Using Logistic Regression</h1>', unsafe_allow_html=True)
+# Header
+st.markdown('<div class="header"><h1 class="title">Gmail Spam Detection</h1></div>', unsafe_allow_html=True)
 
 # Input area
 with st.container():
     st.markdown('<div class="input-area">', unsafe_allow_html=True)
     user_input = st.text_area("Enter your message:", height=200)
-    if st.button("Predict"):
+    if st.button("Predict", key="predict_button", help="Click to predict if the email is spam or normal mail", css_class="button"):
         with st.spinner("Processing..."):
             time.sleep(1)  # Simulate processing time
             cleaned_input = clean_text(user_input)  # Clean the input
@@ -70,8 +91,4 @@ with st.container():
     st.markdown('</div>', unsafe_allow_html=True)
 
 # Footer
-st.markdown("""
-    <footer style="text-align: center; margin-top: 40px;">
-        <p style="color: gray;">&copy; 2024 Sreesanth R. All rights reserved.</p>
-    </footer>
-""", unsafe_allow_html=True)
+st.markdown('<div class="footer"><p>&copy; 2024 Sreesanth R. All rights reserved.</p></div>', unsafe_allow_html=True)
