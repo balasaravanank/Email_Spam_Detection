@@ -80,7 +80,7 @@ If you want to train a custom model using your own email data, here's a basic ex
 
 ### Contributing
 
-We welcome contributions to this project! Feel free to fork the repository, make changes, and submit a pull request.
+I welcome contributions to this project! Feel free to fork the repository, make changes, and submit a pull request.
 
 ### License
 
