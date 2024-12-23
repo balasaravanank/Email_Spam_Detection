@@ -4,8 +4,9 @@ import joblib
 import pandas as pd
 import re
 
-# Load the pre-trained model
+# Load the pre-trained model and vectorizer
 model = joblib.load('model.pkl')
+vectorizer = joblib.load('vectorizer.pkl')
 
 # Function to clean input text
 def clean_text(text):
@@ -21,5 +22,7 @@ user_input = st.text_area("Enter your message:")
 
 if st.button("Predict"):
     cleaned_input = clean_text(user_input)  # Clean the input
-    prediction = model.predict([cleaned_input])  # Make prediction
+    # Vectorize the cleaned input
+    input_vectorized = vectorizer.transform([cleaned_input])  # Reshape to 2D array
+    prediction = model.predict(input_vectorized)  # Make prediction
     st.write("Prediction:", "Spam" if prediction[0] == 1 else "Ham")  # Display result
