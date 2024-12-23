@@ -26,10 +26,10 @@ def clean_text(text):
 # Streamlit app
 st.set_page_config(page_title="Gmail Spam Detection", page_icon="✉️")
 
-# Custom CSS (Brice SemiExpanded font)
+# Custom CSS
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Roboto:wght@400;700&family=Bebas+Neue&display=swap'); /* Added Bebas Neue */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Roboto:wght@400;700&family=Bebas+Neue&display=swap');
 
 body { background-color: #111b21; font-family: 'Roboto', sans-serif; color: #e0e0e0; }
 .header {
@@ -40,29 +40,90 @@ body { background-color: #111b21; font-family: 'Roboto', sans-serif; color: #e0e
     background: none;
 }
 .title {
-    font-size: 2.8em; /* Increased size */
-    font-weight: 400; /* Adjusted weight for Bebas Neue */
+    font-size: 2.8em;
+    font-weight: 400;
     margin: 0;
-    font-family: 'Bebas Neue', sans-serif; /* Use Bebas Neue for title */
+    font-family: 'Bebas Neue', sans-serif;
     letter-spacing: 2px;
 }
-.input-area { /* ... (rest of the styles remain the same) */ }
-.input-area textarea { /* ... */ }
-.prediction { /* ... */ }
+.input-area {
+    margin: 0 auto 30px;
+    max-width: 700px;
+    padding: 25px;
+    background-color: #1a242f;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+.input-area label {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+.input-area textarea {
+    user-select: all !important;
+    -webkit-user-select: all !important;
+    -moz-user-select: all !important;
+    -ms-user-select: all !important;
+    margin-top: 0px;
+    resize: vertical;
+    background-color: #1a242f;
+    color: #e0e0e0;
+    border: 1px solid #343d49;
+    overflow: auto;
+    font-family: 'Roboto Mono', monospace;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.prediction {
+    font-size: 2em;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 25px;
+    word-break: break-word;
+}
 .spam { color: #FF6B6B !important; }
 .normal { color: #66BB6A !important; }
-.stButton>button { /* ... */ }
-.footer { /* ... */ }
+.stButton {
+    display: flex;
+    justify-content: center;
+}
+.stButton>button {
+    display: block;
+    margin: 20px 0;
+    background-image: linear-gradient(to right, #FFB347, #FF9800);
+    border: none;
+    color: #212121;
+    padding: 12px 25px;
+    font-size: 17px;
+    font-weight: 500;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+.stButton>button:hover {
+    background-image: linear-gradient(to right, #FFA500, #FF8C00);
+    transform: scale(1.02);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+    color: #212121;
+}
+.stButton>button:active {
+    transform: scale(0.98);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.footer { text-align: center; margin-top: 40px; color: #757575; font-size: 0.9em; }
 </style>
 """, unsafe_allow_html=True)
 
 # Header
-st.markdown('<div class="header"><h1 class="title">Gmail Spam Detection</h1></div>', unsafe_allow_html=True) # Title changed
+st.markdown('<div class="header"><h1 class="title">Gmail Spam Detection</h1></div>', unsafe_allow_html=True)
 
 # Input area
 with st.container():
     st.markdown('<div class="input-area">', unsafe_allow_html=True)
-    user_input = st.text_area("Enter your message:", height=200, key="input_text", help="Type your message here...", placeholder="Type your message here...")
+    user_input = st.text_area("Enter Your Mail", height=200, key="input_text", help="Type your message here...", placeholder="Type your message here...") # Changed label text
 
     if st.button("Predict", key="predict_button"):
         if not user_input.strip():
@@ -90,4 +151,4 @@ with st.container():
     st.markdown('</div>', unsafe_allow_html=True)
 
 # Footer
-st.markdown('<div class="footer"><p>Developed by <b>Your Name</b> | © 2024 Gmail Spam Detection System</p></div>', unsafe_allow_html=True)
+st.markdown(f'<div class="footer"><p>Developed by <b>Sreesanth R</b> | © 2024 Gmail Spam Detection System</p></div>', unsafe_allow_html=True)
