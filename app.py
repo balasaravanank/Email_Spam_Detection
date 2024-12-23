@@ -6,28 +6,33 @@ import numpy as np
 # Load model and vectorizer with robust error handling
 try:
     model = joblib.load('model.pkl')
+    print("Model loaded successfully:", type(model))
     vectorizer = joblib.load('vectorizer.pkl')
+    print("Vectorizer loaded successfully:", type(vectorizer))
 except FileNotFoundError:
     st.error("Model or vectorizer files not found. Please ensure 'model.pkl' and 'vectorizer.pkl' are in the same directory.")
     st.stop()
 except Exception as e:
     st.error(f"Error loading model or vectorizer: {e}")
+    print(f"Detailed error: {e}")
     st.stop()
 
-# Clean text function (Robust cleaning)
+# Clean text function
 def clean_text(text):
     text = text.lower()
-    text = re.sub(r'https?://\S+|www\.\S+', '', text)  # Remove URLs
-    text = re.sub(r'[^a-zA-Z0-9\s]', '', text)  # Remove non-alphanumeric
-    text = re.sub(r'\s+', ' ', text).strip()  # Remove extra spaces
+    text = re.sub(r'https?://\S+|www\.\S+', '', text)
+    text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
+    text = re.sub(r'\s+', ' ', text).strip()
     return text
 
 # Streamlit app
-st.set_page_config(page_title="Gmail Spam Detection", page_icon="✉️") # Set title and icon of the page
+st.set_page_config(page_title="Gmail Spam Detection", page_icon="✉️")
 
-# Custom CSS (Comprehensive styling)
+# Custom CSS (Including font import and other styles)
 st.markdown("""
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap'); /* Example font */
+
 body { background-color: #111b21; font-family: 'Arial', sans-serif; color: #ececec; }
 .header { background-color: #232F3E; padding: 10px; color: white; text-align: center; margin-bottom: 20px; }
 .title { font-size: 2.5em; margin: 0; }
@@ -40,7 +45,7 @@ body { background-color: #111b21; font-family: 'Arial', sans-serif; color: #ecec
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .input-area textarea {
-    user-select: all !important; /* Force copy/paste */
+    user-select: all !important;
     -webkit-user-select: all !important;
     -moz-user-select: all !important;
     -ms-user-select: all !important;
@@ -50,7 +55,7 @@ body { background-color: #111b21; font-family: 'Arial', sans-serif; color: #ecec
     color: #ececec;
     border: 1px solid #343d49;
     overflow: auto;
-    font-family: monospace;
+    font-family: 'Roboto Mono', monospace; /* Use imported font */
 }
 .prediction { font-size: 1.5em; font-weight: bold; text-align: center; margin-top: 20px; word-break: break-word; color: #ececec; }
 .stButton>button {
@@ -95,19 +100,22 @@ with st.container():
         else:
             with st.spinner('Processing...'):
                 cleaned_input = clean_text(user_input)
-                input_vectorized = vectorizer.transform([cleaned_input])
-
-                if input_vectorized.shape[0] == 0:
-                    st.warning("The input text did not contain any recognizable words for the model.")
-                else:
-                    try:
+                print("Cleaned Input:", cleaned_input)
+                try:
+                    input_vectorized = vectorizer.transform([cleaned_input])
+                    print("Vectorized Input Shape:", input_vectorized.shape)
+                    if input_vectorized.shape[0] == 0:
+                        st.warning("The input text did not contain any recognizable words for the model.")
+                    else:
                         prediction = model.predict(input_vectorized)
+                        print("Raw Prediction:", prediction)
                         if prediction[0] == 1:
                             st.markdown('<p class="prediction spam">Prediction: Spam</p>', unsafe_allow_html=True)
                         else:
                             st.markdown('<p class="prediction normal">Prediction: Normal Mail</p>', unsafe_allow_html=True)
-                    except Exception as e:
-                        st.error(f"An error occurred during prediction: {e}")
+                except Exception as e:
+                    st.error(f"An error occurred during prediction: {e}")
+                    print(f"Detailed prediction error: {e}")
 
     st.markdown('</div>', unsafe_allow_html=True)
 
