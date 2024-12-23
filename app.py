@@ -37,16 +37,17 @@ body { background-color: #111b21; font-family: 'Arial', sans-serif; color: #ecec
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .input-area textarea {
-    user-select: auto !important;
-    -webkit-user-select: auto !important;
-    -moz-user-select: auto !important;
-    -ms-user-select: auto !important;
+    user-select: all !important;
+    -webkit-user-select: all !important;
+    -moz-user-select: all !important;
+    -ms-user-select: all !important;
     margin-top: 0px;
     resize: vertical;
     background-color: #1a242f;
     color: #ececec;
     border: 1px solid #343d49;
     overflow: auto;
+    font-family: monospace;
 }
 .prediction { font-size: 1.5em; font-weight: bold; text-align: center; margin-top: 20px; word-break: break-word; color: #ececec; }
 .stButton>button {
