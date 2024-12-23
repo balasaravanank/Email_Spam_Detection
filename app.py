@@ -28,24 +28,72 @@ def clean_text(text):
 # Streamlit app
 st.set_page_config(page_title="Gmail Spam Detection", page_icon="✉️")
 
-# Custom CSS
+# Custom CSS (Retaining all styles)
 st.markdown("""
 <style>
-/* ... (All other CSS styles remain the same) */
-.input-area textarea {
-    /* ... (All other textarea styles remain the same) */
-    white-space: pre-wrap; /* Important for long text wrapping */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+body { background-color: #111b21; font-family: 'Arial', sans-serif; color: #ececec; }
+.header { background-color: #232F3E; padding: 10px; color: white; text-align: center; margin-bottom: 20px; }
+.title { font-size: 2.5em; margin: 0; }
+.input-area {
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #1a242f;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+.input-area textarea {
+    user-select: all !important;
+    -webkit-user-select: all !important;
+    -moz-user-select: all !important;
+    -ms-user-select: all !important;
+    margin-top: 0px;
+    resize: vertical;
+    background-color: #1a242f;
+    color: #ececec;
+    border: 1px solid #343d49;
+    overflow: auto;
+    font-family: 'Roboto Mono', monospace;
+    white-space: pre-wrap; /* For wrapping long text */
+}
+.prediction { font-size: 1.5em; font-weight: bold; text-align: center; margin-top: 20px; word-break: break-word; color: #ececec; }
+.stButton>button {
+    display: block;
+    margin: 20px auto;
+    background-image: linear-gradient(to right, #FFB347, #FF9800);
+    border: none;
+    color: #111b21;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+.stButton>button:hover {
+    background-image: linear-gradient(to right, #FFA500, #FF8C00);
+    transform: scale(1.05);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    color: #111b21;
+}
+.stButton>button:active {
+    transform: scale(0.95);
+    box-shadow: none;
+}
+.footer { text-align: center; margin-top: 40px; color: #71797E; font-size: 0.9em; }
 </style>
 """, unsafe_allow_html=True)
 
 # Header
 st.markdown('<div class="header"><h1 class="title">Gmail Spam Detection Using Logistic Regression</h1></div>', unsafe_allow_html=True)
 
-# Input area
+# Input area (Only change is removing max_chars)
 with st.container():
     st.markdown('<div class="input-area">', unsafe_allow_html=True)
-    user_input = st.text_area("Enter your message:", height=200, key="input_text", help="Type your message here...", placeholder="Type your message here...") # Removed max_chars
+    user_input = st.text_area("Enter your message:", height=200, key="input_text", help="Type your message here...", placeholder="Type your message here...") # max_chars removed
 
     if st.button("Predict", key="predict_button"):
         if not user_input.strip():
