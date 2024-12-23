@@ -3,12 +3,10 @@ import joblib
 import re
 import numpy as np
 
-# Load model and vectorizer with robust error handling
+# Load model and vectorizer
 try:
     model = joblib.load('model.pkl')
-    print("Model loaded successfully:", type(model))
     vectorizer = joblib.load('vectorizer.pkl')
-    print("Vectorizer loaded successfully:", type(vectorizer))
 except FileNotFoundError:
     st.error("Model or vectorizer files not found. Please ensure 'model.pkl' and 'vectorizer.pkl' are in the same directory.")
     st.stop()
@@ -28,21 +26,27 @@ def clean_text(text):
 # Streamlit app
 st.set_page_config(page_title="Gmail Spam Detection", page_icon="✉️")
 
-# Custom CSS (Retaining all styles)
+# Custom CSS (Improved styling for professional look)
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Roboto:wght@400;700&display=swap');
 
-body { background-color: #111b21; font-family: 'Arial', sans-serif; color: #ececec; }
-.header { background-color: #232F3E; padding: 10px; color: white; text-align: center; margin-bottom: 20px; }
-.title { font-size: 2.5em; margin: 0; }
+body { background-color: #111b21; font-family: 'Roboto', sans-serif; color: #e0e0e0; } /* Changed font */
+.header {
+    background-color: #232F3E;
+    padding: 20px 0; /* Reduced vertical padding, removed bottom margin */
+    color: white;
+    text-align: center;
+    margin-bottom: 30px; /* Added margin below header */
+}
+.title { font-size: 2.2em; font-weight: 700; margin: 0; } /* Adjusted font size and weight */
 .input-area {
-    margin: 0 auto;
-    max-width: 600px;
-    padding: 20px;
+    margin: 0 auto 30px; /* Added bottom margin to input area */
+    max-width: 700px; /* Wider input area */
+    padding: 25px;
     background-color: #1a242f;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Stronger shadow */
 }
 .input-area textarea {
     user-select: all !important;
@@ -52,73 +56,53 @@ body { background-color: #111b21; font-family: 'Arial', sans-serif; color: #ecec
     margin-top: 0px;
     resize: vertical;
     background-color: #1a242f;
-    color: #ececec;
+    color: #e0e0e0;
     border: 1px solid #343d49;
     overflow: auto;
     font-family: 'Roboto Mono', monospace;
-    white-space: pre-wrap; /* For wrapping long text */
+    padding: 10px; /* Added padding to textarea */
+    font-size: 16px;
 }
-.prediction { font-size: 1.5em; font-weight: bold; text-align: center; margin-top: 20px; word-break: break-word; color: #ececec; }
-.stButton>button {
+.prediction {
+    font-size: 1.6em;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 25px;
+    word-break: break-word;
+}
+.spam { color: #FF6B6B !important; } /* Red for spam */
+.normal { color: #66BB6A !important; } /* Green for normal */
+.stButton>button { /* Improved button styles */
     display: block;
     margin: 20px auto;
     background-image: linear-gradient(to right, #FFB347, #FF9800);
     border: none;
-    color: #111b21;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
+    color: #212121; /* Darker text */
+    padding: 12px 25px;
+    font-size: 17px;
+    font-weight: 500;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease, transform 0.2s;
 }
 .stButton>button:hover {
     background-image: linear-gradient(to right, #FFA500, #FF8C00);
-    transform: scale(1.05);
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    color: #111b21;
+    transform: scale(1.02); /* Reduced scale */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
 }
 .stButton>button:active {
-    transform: scale(0.95);
-    box-shadow: none;
+    transform: scale(0.98);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
-.footer { text-align: center; margin-top: 40px; color: #71797E; font-size: 0.9em; }
+.footer { text-align: center; margin-top: 40px; color: #757575; font-size: 0.9em; }
 </style>
 """, unsafe_allow_html=True)
 
-# Header
-st.markdown('<div class="header"><h1 class="title">Gmail Spam Detection Using Logistic Regression</h1></div>', unsafe_allow_html=True)
+# ... (Rest of the Streamlit app code - same as before)
 
-# Input area (Only change is removing max_chars)
-with st.container():
-    st.markdown('<div class="input-area">', unsafe_allow_html=True)
-    user_input = st.text_area("Enter your message:", height=200, key="input_text", help="Type your message here...", placeholder="Type your message here...") # max_chars removed
-
-    if st.button("Predict", key="predict_button"):
-        if not user_input.strip():
-            st.error("Please enter a message to predict.")
-        else:
-            with st.spinner('Processing...'):
-                cleaned_input = clean_text(user_input)
-                print("Cleaned Input:", cleaned_input)
-                try:
-                    input_vectorized = vectorizer.transform([cleaned_input])
-                    print("Vectorized Input Shape:", input_vectorized.shape)
-                    if input_vectorized.shape[0] == 0:
-                        st.warning("The input text did not contain any recognizable words for the model.")
-                    else:
-                        prediction = model.predict(input_vectorized)
-                        print("Raw Prediction:", prediction)
                         if prediction[0] == 1:
                             st.markdown('<p class="prediction spam">Prediction: Spam</p>', unsafe_allow_html=True)
                         else:
                             st.markdown('<p class="prediction normal">Prediction: Normal Mail</p>', unsafe_allow_html=True)
-                except Exception as e:
-                    st.error(f"An error occurred during prediction: {e}")
-                    print(f"Detailed prediction error: {e}")
 
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# Footer
-st.markdown('<div class="footer"><p>Developed by <b>Your Name</b> | © 2024 Gmail Spam Detection System</p></div>', unsafe_allow_html=True)
+# ... (Rest of the Streamlit app code - same as before)
