@@ -26,27 +26,27 @@ def clean_text(text):
 # Streamlit app
 st.set_page_config(page_title="Gmail Spam Detection", page_icon="✉️")
 
-# Custom CSS (Improved styling for professional look)
+# Custom CSS
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Roboto:wght@400;700&display=swap');
 
-body { background-color: #111b21; font-family: 'Roboto', sans-serif; color: #e0e0e0; } /* Changed font */
+body { background-color: #111b21; font-family: 'Roboto', sans-serif; color: #e0e0e0; }
 .header {
     background-color: #232F3E;
-    padding: 20px 0; /* Reduced vertical padding, removed bottom margin */
+    padding: 20px 0;
     color: white;
     text-align: center;
-    margin-bottom: 30px; /* Added margin below header */
+    margin-bottom: 30px;
 }
-.title { font-size: 2.2em; font-weight: 700; margin: 0; } /* Adjusted font size and weight */
+.title { font-size: 2.2em; font-weight: 700; margin: 0; }
 .input-area {
-    margin: 0 auto 30px; /* Added bottom margin to input area */
-    max-width: 700px; /* Wider input area */
+    margin: 0 auto 30px;
+    max-width: 700px;
     padding: 25px;
     background-color: #1a242f;
     border-radius: 8px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 .input-area textarea {
     user-select: all !important;
@@ -60,7 +60,7 @@ body { background-color: #111b21; font-family: 'Roboto', sans-serif; color: #e0e
     border: 1px solid #343d49;
     overflow: auto;
     font-family: 'Roboto Mono', monospace;
-    padding: 10px; /* Added padding to textarea */
+    padding: 10px;
     font-size: 16px;
 }
 .prediction {
@@ -70,14 +70,14 @@ body { background-color: #111b21; font-family: 'Roboto', sans-serif; color: #e0e
     margin-top: 25px;
     word-break: break-word;
 }
-.spam { color: #FF6B6B !important; } /* Red for spam */
-.normal { color: #66BB6A !important; } /* Green for normal */
-.stButton>button { /* Improved button styles */
+.spam { color: #FF6B6B !important; }
+.normal { color: #66BB6A !important; }
+.stButton>button {
     display: block;
     margin: 20px auto;
     background-image: linear-gradient(to right, #FFB347, #FF9800);
     border: none;
-    color: #212121; /* Darker text */
+    color: #212121;
     padding: 12px 25px;
     font-size: 17px;
     font-weight: 500;
@@ -87,7 +87,7 @@ body { background-color: #111b21; font-family: 'Roboto', sans-serif; color: #e0e
 }
 .stButton>button:hover {
     background-image: linear-gradient(to right, #FFA500, #FF8C00);
-    transform: scale(1.02); /* Reduced scale */
+    transform: scale(1.02);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
 }
 .stButton>button:active {
@@ -98,11 +98,38 @@ body { background-color: #111b21; font-family: 'Roboto', sans-serif; color: #e0e
 </style>
 """, unsafe_allow_html=True)
 
-# ... (Rest of the Streamlit app code - same as before)
+# Header
+st.markdown('<div class="header"><h1 class="title">Gmail Spam Detection Using Logistic Regression</h1></div>', unsafe_allow_html=True)
 
-                        if prediction[0] == 1:
+# Input area
+with st.container():
+    st.markdown('<div class="input-area">', unsafe_allow_html=True)
+    user_input = st.text_area("Enter your message:", height=200, key="input_text", help="Type your message here...", placeholder="Type your message here...")
+
+    if st.button("Predict", key="predict_button"):
+        if not user_input.strip():
+            st.error("Please enter a message to predict.")
+        else:
+            with st.spinner('Processing...'):
+                cleaned_input = clean_text(user_input)
+                print("Cleaned Input:", cleaned_input)
+                try:
+                    input_vectorized = vectorizer.transform([cleaned_input])
+                    print("Vectorized Input Shape:", input_vectorized.shape)
+                    if input_vectorized.shape[0] == 0:
+                        st.warning("The input text did not contain any recognizable words for the model.")
+                    else:
+                        prediction = model.predict(input_vectorized)
+                        print("Raw Prediction:", prediction)
+                        if prediction[0] == 1:  # Correct indentation here
                             st.markdown('<p class="prediction spam">Prediction: Spam</p>', unsafe_allow_html=True)
                         else:
                             st.markdown('<p class="prediction normal">Prediction: Normal Mail</p>', unsafe_allow_html=True)
+                except Exception as e:
+                    st.error(f"An error occurred during prediction: {e}")
+                    print(f"Detailed prediction error: {e}")
 
-# ... (Rest of the Streamlit app code - same as before)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# Footer
+st.markdown('<div class="footer"><p>Developed by <b>Your Name</b> | © 2024 Gmail Spam Detection System</p></div>', unsafe_allow_html=True)
