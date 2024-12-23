@@ -25,32 +25,36 @@ def clean_text(text):
 # Custom CSS
 st.markdown("""
 <style>
-body { background-color: #f7f7f7; font-family: 'Arial', sans-serif; }
-.header { background-color: #232F3E; padding: 10px; color: white; text-align: center; }
+body { background-color: #111b21; font-family: 'Arial', sans-serif; color: #ececec; }
+.header { background-color: #232F3E; padding: 10px; color: white; text-align: center; margin-bottom: 20px; }
 .title { font-size: 2.5em; margin: 0; }
 .input-area {
-    margin: 10px auto;
+    margin: 0 auto;
     max-width: 600px;
     padding: 20px;
-    background-color: white;
+    background-color: #1a242f;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .input-area textarea {
-    user-select: auto; /* This is the key for copy/paste */
-    -webkit-user-select: auto;
-    -moz-user-select: auto;
-    -ms-user-select: auto;
+    user-select: auto !important;
+    -webkit-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
     margin-top: 0px;
-    resize: vertical; /* Allow vertical resizing for better usability */
+    resize: vertical;
+    background-color: #1a242f;
+    color: #ececec;
+    border: 1px solid #343d49;
+    overflow: auto;
 }
-.prediction { font-size: 1.5em; font-weight: bold; text-align: center; margin-top: 20px; word-break: break-word; }
+.prediction { font-size: 1.5em; font-weight: bold; text-align: center; margin-top: 20px; word-break: break-word; color: #ececec; }
 .stButton>button {
     display: block;
     margin: 20px auto;
     background-image: linear-gradient(to right, #FFB347, #FF9800);
     border: none;
-    color: white;
+    color: #111b21;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
@@ -63,12 +67,13 @@ body { background-color: #f7f7f7; font-family: 'Arial', sans-serif; }
     background-image: linear-gradient(to right, #FFA500, #FF8C00);
     transform: scale(1.05);
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    color: #111b21;
 }
 .stButton>button:active {
     transform: scale(0.95);
     box-shadow: none;
 }
-.footer { text-align: center; margin-top: 40px; color: gray; font-size: 0.9em; }
+.footer { text-align: center; margin-top: 40px; color: #71797E; font-size: 0.9em; }
 </style>
 """, unsafe_allow_html=True)
 
