@@ -6,8 +6,12 @@ import re
 import time
 
 # Load the pre-trained model and vectorizer
-model = joblib.load('model.pkl')
-vectorizer = joblib.load('vectorizer.pkl')
+try:
+    model = joblib.load('model.pkl')
+    vectorizer = joblib.load('vectorizer.pkl')
+except Exception as e:
+    st.error("Error loading model or vectorizer. Please check the files.")
+    st.stop()
 
 # Function to clean input text
 def clean_text(text):
@@ -79,21 +83,16 @@ with st.container():
     st.markdown('<div class="input-area">', unsafe_allow_html=True)
     user_input = st.text_area("Enter your message:", height=200)
     
-    # Create a button using markdown for custom styling
-    if st.markdown('<button class="button" onclick="document.getElementById(\'predict\').click();">Predict</button>', unsafe_allow_html=True):
-        with st.spinner("Processing..."):
-            time.sleep(1)  # Simulate processing time
-            cleaned_input = clean_text(user_input)  # Clean the input
-            # Vectorize the cleaned input
-            input_vectorized = vectorizer.transform([cleaned_input])  # Reshape to 2D array
-            prediction = model.predict(input_vectorized)  # Make prediction
-            
-            # Display result
-            if prediction[0] == 1:
-                st.markdown('<p class="prediction">Prediction: Spam</p>', unsafe_allow_html=True)
-            else:
-                st.markdown('<p class="prediction">Prediction: Normal Mail</p>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# Footer
-st.markdown('<div class="footer"><p>&copy; 2024 Sreesanth R. All rights reserved.</p></div>', unsafe_allow_html=True)
+    if st.button("Predict"):
+        if not user_input:
+            st.error("Please enter a message to predict.")
+        else:
+            with st.spinner("Processing..."):
+                time.sleep(1)  # Simulate processing time
+                cleaned_input = clean_text(user_input)  # Clean the input
+                # Vectorize the cleaned input
+                input_vectorized = vectorizer.transform([cleaned_input])  # Reshape to 2D array
+                prediction = model.predict(input_vectorized)  # Make prediction
+                
+                # Display result
+                if prediction[0
