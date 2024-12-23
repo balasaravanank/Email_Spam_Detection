@@ -118,7 +118,4 @@ with st.container():
                 if prediction[0] == 1:
                     st.markdown('<p class="prediction spam">Prediction: Spam</p>', unsafe_allow_html=True)
                 else:
-                    st.markdown('<p class="prediction normal">Prediction: Normal Mail</p>', unsafe_allow
-
-# Footer
-st.markdown('<div class="footer"><p>&copy; 2024 Sreesanth R. All rights reserved.</p></div>', unsafe_allow_html=True)
+                    st.markdown('<p class="prediction normal">Prediction: Normal Mail</p>', unsafe_allow_html
