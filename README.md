@@ -1,5 +1,3 @@
-I apologize for the previous response. Here's a revised README.md file that explains all the terms clearly and removes any offensive language:
-
 ## Gmail Spam Detection with Streamlit
 
 This repository provides a user-friendly web application built with Streamlit to predict whether an email is spam or not. It leverages a pre-trained machine learning model for classification.
