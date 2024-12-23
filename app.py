@@ -95,4 +95,11 @@ with st.container():
                 prediction = model.predict(input_vectorized)  # Make prediction
                 
                 # Display result
-                if prediction[0
+                if prediction[0] == 1:
+                    st.markdown('<p class="prediction">Prediction: Spam</p>', unsafe_allow_html=True)
+                else:
+                    st.markdown('<p class="prediction">Prediction: Normal Mail</p>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# Footer
+st.markdown('<div class="footer"><p>&copy; 2024 Sreesanth R. All rights reserved.</p></div>', unsafe_allow_html=True)
