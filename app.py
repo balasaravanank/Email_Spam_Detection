@@ -3,7 +3,7 @@ import joblib
 import re
 import numpy as np
 
-# Load the pre-trained model and vectorizer
+# Load model and vectorizer
 try:
     model = joblib.load('model.pkl')
     vectorizer = joblib.load('vectorizer.pkl')
@@ -14,7 +14,7 @@ except Exception as e:
     st.error(f"Error loading model or vectorizer: {e}")
     st.stop()
 
-# Function to clean input text
+# Clean text function
 def clean_text(text):
     text = text.lower()
     text = re.sub(r'https?://\S+|www\.\S+', '', text)
@@ -57,7 +57,7 @@ st.markdown('<div class="header"><h1 class="title">Gmail Spam Detection</h1></di
 
 # Input area
 with st.container():
-    st.markdown('<div class="input-area">', unsafe_allow_html=True)
+    st.markdown('<div class="input-area">', unsafe_allow_html=True)  # Opening div
     user_input = st.text_area("Enter your message:", height=200, key="input_text", help="Type your message here...", placeholder="Type your message here...", max_chars=500)
 
     if st.button("Predict", key="predict_button"):
@@ -74,8 +74,13 @@ with st.container():
                     try:
                         prediction = model.predict(input_vectorized)
                         if prediction[0] == 1:
-                            st.markdown(f'<p class="prediction spam">Prediction: Spam</p>', unsafe_allow_html=True)
+                            st.markdown('<p class="prediction spam">Prediction: Spam</p>', unsafe_allow_html=True) #Corrected line
                         else:
-                            st.markdown(f'<p class="prediction normal">Prediction: Normal Mail</p>', unsafe_allow_html=True)
+                            st.markdown('<p class="prediction normal">Prediction: Normal Mail</p>', unsafe_allow_html=True) #Corrected line
                     except Exception as e:
-                        st.error(
+                        st.error(f"An error occurred during prediction: {e}")
+
+    st.markdown('</div>', unsafe_allow_html=True)  # Closing div
+
+# Footer
+st.markdown('<div class="footer"><p>Developed by <b>Your Name</b> | © 2024 Gmail Spam Detection System</p></div>', unsafe_allow_html=True)
