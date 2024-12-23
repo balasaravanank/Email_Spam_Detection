@@ -36,7 +36,14 @@ body { background-color: #f7f7f7; font-family: 'Arial', sans-serif; }
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.input-area textarea { user-select: auto; -webkit-user-select: auto; -moz-user-select: auto; -ms-user-select: auto; margin-top: 0px;}
+.input-area textarea {
+    user-select: auto; /* This is the key for copy/paste */
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    margin-top: 0px;
+    resize: vertical; /* Allow vertical resizing for better usability */
+}
 .prediction { font-size: 1.5em; font-weight: bold; text-align: center; margin-top: 20px; word-break: break-word; }
 .stButton>button {
     display: block;
