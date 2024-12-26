@@ -1,4 +1,4 @@
-## Gmail Spam Detection with Streamlit
+## Gmail Spam Detection with Logistic Regression
 
 This repository provides a user-friendly web application built with Streamlit to predict whether an email is spam or not. It leverages a pre-trained machine learning model for classification.
 
