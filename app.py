@@ -151,4 +151,4 @@ with st.container():
     st.markdown('</div>', unsafe_allow_html=True)
 
 # Footer
-st.markdown(f'<div class="footer"><p>Developed by <b>Bala Saravnan K</b> | © 2024 Gmail Spam Detection System</p></div>', unsafe_allow_html=True)
+st.markdown(f'<div class="footer"><p>Developed by <b>Bala Saravanan K</b> | © 2024 Gmail Spam Detection System</p></div>', unsafe_allow_html=True)
