@@ -123,7 +123,7 @@ st.markdown('<div class="header"><h1 class="title">Gmail Spam Detection</h1></di
 # Input area
 with st.container():
     st.markdown('<div class="input-area">', unsafe_allow_html=True)
-    user_input = st.text_area("Enter Your Mail", height=200, key="input_text", help="Type your message here...", placeholder="Type your message here...") # Changed label text
+    user_input = st.text_area("Enter Your Raw Text", height=200, key="input_text", help="Type your message here...", placeholder="Type your message here...") # Changed label text
 
     if st.button("Predict", key="predict_button"):
         if not user_input.strip():
